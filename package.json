@@ -1,6 +1,6 @@
 {
   "name": "@pass/migrations-validate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Checks the format of the migration exports file.",
   "repository": "https://github.com/p7s1-ctf/7pass-migrations-validate",
   "author": "P7S1",
@@ -11,6 +11,7 @@
     "eslint-plugin-import": "^2.2.0"
   },
   "dependencies": {
+    "commander": "^2.11.0",
     "country-list": "^1.1.0",
     "email-validator": "^1.0.7",
     "langs": "^2.0.0",
@@ -23,10 +24,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "migrations-validate": "./validate_exec.js"
+    "migrations-validate": "./index.js"
   },
   "files": [
     "validate.js",
-    "validate_exec.js"
+    "index.js"
   ]
 }

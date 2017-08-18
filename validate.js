@@ -41,13 +41,18 @@ function isObject(obj) {
   return _.isPlainObject(obj);
 }
 
-function validateAccount(lineNumber, account, report) {
+function validateAccount(lineNumber, account, report, emailMap) {
   if (!_.isString(account.original_id)) {
     addError(lineNumber, 'missingOriginalId', report);
   }
 
   if (!isEmail(account.email)) {
     addError(lineNumber, 'invalidEmail', report);
+  } else if (emailMap) {
+    if (!emailMap[account.email]) {
+      emailMap[account.email] = [];
+    }
+    emailMap[account.email].push(lineNumber);
   }
 
   if (!isValidDateOrNull(account.email_verified_at)) {
@@ -144,35 +149,47 @@ function validateAccount(lineNumber, account, report) {
   }
 }
 
-function validateLine(lineNumber, line, report) {
+function validateLine(lineNumber, line, report, emailMap) {
   report.processed++;
 
   try {
     const account = JSON.parse(line);
-    validateAccount(lineNumber, account, report);
+    validateAccount(lineNumber, account, report, emailMap);
   } catch (err) {
     addError(lineNumber, 'failedToParse', report);
   }
 }
 
-function validateFile(path, report) {
+function validateEmailDuplicities(emailMap, report) {
+  _.forEach(emailMap, (lines) => {
+    if (lines.length > 1) {
+      addError(JSON.stringify(lines), 'duplicateEmail', report);
+    }
+  });
+}
+
+function validateFile(path, report, skipEmailDupCheck) {
   return new Promise((resolve, reject) => {
     let lineNumber = 1;
+
+    const emailMap = {}; // used only unless email duplicity check is disabled
 
     const rl = readline.createInterface({
       input: fs.createReadStream(path),
     });
 
     rl.on('line', (line) => {
-      validateLine(lineNumber++, line, report);
+      validateLine(lineNumber++, line, report, skipEmailDupCheck ? null : emailMap);
     });
 
-    rl.on('close', () => resolve(report));
+    rl.on('close', () => {
+      if (!skipEmailDupCheck) {
+        validateEmailDuplicities(emailMap, report);
+      }
+      resolve(report)
+    });
     rl.on('error', () => reject(report));
   });
 }
 
-module.exports = {
-  validateFile,
-  validateLine,
-};
+module.exports = validateFile;

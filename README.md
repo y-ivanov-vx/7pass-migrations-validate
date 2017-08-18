@@ -274,16 +274,43 @@ We currently support only `$2a$` digests.
 
 ## Validation script
 
-There's a validation script available that can be used to verify the structure
-of the export file.
+A validation script is available to verify the structure of the export file.
+
+### Installation
+
+ * clone the repository and enter its directory
+ * make sure the recent enough Node.js is installed
+   ```bash
+   $ nvm install
+   ```
+ * install it globally for the given version of Node.js
+   ```bash
+   $ npm install -g
+   ```
+ * the validation script is now available as `migrations-validate` executable
+
+**Internally** the validation script can be installed as simple as:
+```bash
+npm install -g @pass/migrations-validate
+```
+
+### Execution
 
 ```bash
-∴ migrations-validate export.jsonl
-2017-06-22T11:13:59.884Z Running...
-2017-06-22T11:14:01.379Z Report:
-                          processed: 9999
-                          invalidEmail: 1, 323, 1232
-2017-06-22T11:14:01.380Z Finished
+$ migrations-validate --help
+...
+$ migrations-validate examples/*.jsonl
+2017-08-18T12:50:04.302Z Processing 'examples/invalid.jsonl'...
+2017-08-18T12:50:04.327Z Report for 'examples/invalid.jsonl':
+    processed: 4
+    unsupported bcrypt password digest scheme, please substitute $2y$ prefix with $2a$: 1
+    suspicious bcrypt password digest: 2, 3
+    invalidPasswordDigest: 4
+    duplicateEmail: [1,3], [2,4]
+2017-08-18T12:50:04.329Z Processing 'examples/valid.jsonl'...
+2017-08-18T12:50:04.335Z Report for 'examples/valid.jsonl':
+    processed: 2
+2017-08-18T12:50:04.336Z Finished
 ```
 
 The script will read the file line by line, it will not read the whole file to
@@ -292,3 +319,8 @@ seconds and at the very end. The `processed` field contains the number of rows
 that have been processed so far. Other field names indicate the type of error
 encountered and the value is an array of corresponding line numbers. Note that
 the array of line numbers is capped to the first 50 elements for each error.
+Also note that the email duplicity check gathers all emails in a hash as
+the file is being processed so that it can determine email duplicities when the
+whole file is parsed. This can be memory intensive for very large files and
+it can be disabled via parameter.
+
