@@ -1,0 +1,32 @@
+{
+  "name": "@pass/migrations-validate",
+  "version": "1.0.0",
+  "description": "Checks the format of the migration exports file.",
+  "repository": "https://github.com/p7s1-ctf/7pass-migrations-validate",
+  "author": "P7S1",
+  "license": "Private",
+  "devDependencies": {
+    "eslint": "^3.13.1",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0"
+  },
+  "dependencies": {
+    "country-list": "^1.1.0",
+    "email-validator": "^1.0.7",
+    "langs": "^2.0.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1"
+  },
+  "scripts": {
+    "lint": "eslint ./",
+    "lint-fix": "eslint ./ --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "migrations-validate": "./validate_exec.js"
+  },
+  "files": [
+    "validate.js",
+    "validate_exec.js"
+  ]
+}
