@@ -186,7 +186,7 @@ function validateFile(path, report, skipEmailDupCheck) {
       if (!skipEmailDupCheck) {
         validateEmailDuplicities(emailMap, report);
       }
-      resolve(report)
+      resolve(report);
     });
     rl.on('error', () => reject(report));
   });

@@ -19,8 +19,8 @@ function log(msg) {
   console.log(new Date().toISOString(), msg);
 }
 
-function printReport(filename, report) {
-  log(`Report for '${filename}':`);
+function printReport(report, filename) {
+  log(filename ? `Report for '${filename}':` : 'Intermediary report:');
   for (const key of Object.keys(report)) {
     const value = report[key];
     console.log(`    ${key}: ${value.join ? value.join(', ') : value}`);
@@ -36,7 +36,7 @@ function processFile(filename) {
   log(`Processing '${filename}'...`);
   return validateFile(filename, report, cmd.skipEmailDupCheck)
     .then(() => {
-      printReport(filename, report);
+      printReport(report, filename);
     })
     .catch((err) => {
       log(`Something went wrong: ${err}`);
