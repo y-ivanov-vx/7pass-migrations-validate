@@ -1,0 +1,1 @@
+# 7pass-migrations-validate
