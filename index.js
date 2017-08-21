@@ -13,6 +13,11 @@ cmd
     '-s, --skip-email-dup-check',
     'Skip the check for email duplicities. It can be memory intensive for large files.'
   )
+  .option(
+    '-l, --limit <LIMIT>',
+    'Limit amount of line numbers printed for each error. Default: 50',
+    50
+  )
   .parse(process.argv);
 
 function log(msg) {
@@ -34,14 +39,17 @@ function processFile(filename) {
   const reporterId = setInterval(() => printReport(report), 5000);
 
   log(`Processing '${filename}'...`);
-  return validateFile(filename, report, cmd.skipEmailDupCheck)
-    .then(() => {
-      printReport(report, filename);
-    })
-    .catch((err) => {
-      log(`Something went wrong: ${err}`);
-    })
-    .then(() => clearInterval(reporterId));
+  return validateFile(filename, report, {
+    maxLinesPerError: parseInt(cmd.limit, 10),
+    skipEmailDupCheck: cmd.skipEmailDupCheck,
+  })
+  .then(() => {
+    printReport(report, filename);
+  })
+  .catch((err) => {
+    log(`Something went wrong: ${err}`);
+  })
+  .then(() => clearInterval(reporterId));
 }
 
 if (!cmd.args.length) {
