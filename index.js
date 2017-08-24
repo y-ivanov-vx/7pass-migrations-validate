@@ -11,12 +11,12 @@ cmd
   .usage('[options] <export.jsonl> [export2.jsonl...]')
   .option(
     '-s, --skip-email-dup-check',
-    'Skip the check for email duplicities. It can be memory intensive for large files.'
+    'Skip the check for email duplicities. It can be memory intensive for large files.' // eslint-disable-line comma-dangle
   )
   .option(
     '-l, --limit <LIMIT>',
     'Limit amount of line numbers printed for each error. Default: 50',
-    50
+    50 // eslint-disable-line comma-dangle
   )
   .parse(process.argv);
 

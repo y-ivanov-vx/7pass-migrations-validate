@@ -138,7 +138,7 @@ function validateAccount(lineNumber, account, report, options) {
         lineNumber,
         'unsupported bcrypt password digest scheme, please substitute $2y$ prefix with $2a$',
         report,
-        options.maxLinesPerError
+        options.maxLinesPerError // eslint-disable-line comma-dangle
       );
     } else if (!account.password_digest.match(/^\$2a\$[./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$]{56}$/)) {
       addError(lineNumber, 'suspicious bcrypt password digest', report, options.maxLinesPerError);
@@ -168,7 +168,14 @@ function validateLine(lineNumber, line, report, options) {
 function validateEmailDuplicities(report, options) {
   _.forEach(options.emailMap, (lines) => {
     if (lines.length > 1) {
-      addError(JSON.stringify(lines), 'duplicateEmail', report, options.maxLinesPerError);
+      let dups;
+      if (lines.length > options.maxLinesPerError) {
+        dups = JSON.stringify(lines.slice(0, options.maxLinesPerError));
+        dups = dups.replace(']', ', ...]');
+      } else {
+        dups = JSON.stringify(lines);
+      }
+      addError(dups, 'duplicateEmail', report, options.maxLinesPerError);
     }
   });
 }
