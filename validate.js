@@ -48,11 +48,17 @@ function validateAccount(lineNumber, account, report, options) {
 
   if (!isEmail(account.email)) {
     addError(lineNumber, 'invalidEmail', report, options.maxLinesPerError);
-  } else if (options.emailMap) {
-    if (!options.emailMap[account.email]) {
-      options.emailMap[account.email] = [];
+  } else {
+    const lcEmail = account.email.trim().toLowerCase();
+    if (account.email !== lcEmail) {
+      addError(lineNumber, 'emailNotLowerCase', report, options.maxLinesPerError);
     }
-    options.emailMap[account.email].push(lineNumber);
+    if (options.emailMap) {
+      if (!options.emailMap[lcEmail]) {
+        options.emailMap[lcEmail] = [];
+      }
+      options.emailMap[lcEmail].push(lineNumber);
+    }
   }
 
   if (!isValidDateOrNull(account.email_verified_at)) {

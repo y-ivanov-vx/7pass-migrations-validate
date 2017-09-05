@@ -78,8 +78,8 @@ will produce an error for unknown fields.
      <td>String</td>
      <td>rick@example.com</td>
      <td>
-       A primary email of the account. Note that the value needs to be unique as
-       well.
+       A primary email of the account. Note that the value needs to be
+       in <strong>lower case</strong> and <strong>unique</strong> as well.
      </td>
    </tr>
 
