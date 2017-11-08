@@ -6,18 +6,18 @@ validation script to ensure that the data is valid before submitting it.
 
 ## File format
 
-The data is deliver as a single UTF-8 encoded file. The file is structured as
-new line delimited JSON. Each line contains a single JSON representation of an
-account. The line is ended with UNIX style line separator (`\n`).
+The data is delivered as a single UTF-8 encoded [jsonl file](http://jsonlines.org/).
+Each line contains a single JSON representation of an account.
+The line is ended with UNIX style line separator (`\n`).
 
-```json
+```jsonl
 {"original_id": "12312312", "email": "rick@example.com"}\n
 {"original_id": "12312313", "email": "rick2@example.com"}\n
 ```
 
 ### Lines
 
-Each line contains a standalone JSON value. The fields described below are
+Each line contains a JSON document of an account. The fields described below are
 required and will cause an error if missing. Additionally the validation script
 will produce an error for unknown fields.
 
