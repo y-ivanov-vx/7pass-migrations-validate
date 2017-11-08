@@ -300,17 +300,18 @@ npm install -g @pass/migrations-validate
 $ migrations-validate --help
 ...
 $ migrations-validate examples/*.jsonl
-2017-08-18T12:50:04.302Z Processing 'examples/invalid.jsonl'...
-2017-08-18T12:50:04.327Z Report for 'examples/invalid.jsonl':
+2017-11-08T13:22:59.614Z Processing 'examples/invalid.jsonl'...
+2017-11-08T13:22:59.628Z Report for 'examples/invalid.jsonl':
     processed: 4
     unsupported bcrypt password digest scheme, please substitute $2y$ prefix with $2a$: 1
+    emailNotLowerCase: 2
     suspicious bcrypt password digest: 2, 3
     invalidPasswordDigest: 4
     duplicateEmail: [1,3], [2,4]
-2017-08-18T12:50:04.329Z Processing 'examples/valid.jsonl'...
-2017-08-18T12:50:04.335Z Report for 'examples/valid.jsonl':
+2017-11-08T13:22:59.629Z Processing 'examples/valid.jsonl'...
+2017-11-08T13:22:59.631Z Report for 'examples/valid.jsonl':
     processed: 2
-2017-08-18T12:50:04.336Z Finished
+2017-11-08T13:22:59.631Z Finished
 ```
 
 The script will read the file line by line, it will not read the whole file to
