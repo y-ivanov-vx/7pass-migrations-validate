@@ -27,6 +27,7 @@ will produce an error for unknown fields.
   "email": "rick@example.com",
   "email_verified_at": "2017-06-21T12:11:54.463Z",
   "nickname": "Morty",
+  "username": "Morty",
   "first_name": "Beth",
   "last_name": "Smith",
   "gender": "female",
